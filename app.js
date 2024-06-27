@@ -7,11 +7,11 @@ const cors = require('cors'); // 引入cors中间件
 // 定义生成验证码函数
 function createCode () {
     // 配置背景图片颜色集合
-    const colorMap = ['#eeeeee','#edfedf','#eeddff','#c8c8c8','#f2f2f2','#d9d9d9','#f0f0f0','#d3d3d3'] 
-    
+    const colorMap = ['#eeeeee','#edfedf','#eeddff','#c8c8c8','#f2f2f2','#d9d9d9','#f0f0f0','#d3d3d3']
+
     //随机颜色
     const randomColor = colorMap[Math.floor(Math.random() * colorMap.length)]
-    
+
     const options ={
         size: 4, // 验证码长度
         ignoreChars: '0oO1ilI', // 排除容易混淆的字符
@@ -48,9 +48,9 @@ app.get('/api/captcha', (req, res) => {
     res.send(captchaObj.data);
 });
 
-app.get('/api/verify', (req, res) => {
+app.post('/api/verify', (req, res) => {
     const serverCode = req.session.captcha.toLowerCase();
-    const clientCode = req.query.code.toLowerCase();
+    const clientCode = req.body.code.toLowerCase(); // 使用req.body获取POST请求体中的数据
 
     if (serverCode === clientCode) {
         res.json({status: 200, isTrue: true});
